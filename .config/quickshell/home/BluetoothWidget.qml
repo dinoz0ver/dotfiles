@@ -28,6 +28,7 @@ Item {
       padding: 8
       text: "󰂯"+( Bt.connectedCount == 0 ? " Bluetooth" : (Bt.connectedCount == 1 ? " "+Bt.adapter.devices.values[0].name : Bt.connectedCount+" devices connected"))
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: Bt.adapter.enabled ? root.fg : root.fg
     }
 

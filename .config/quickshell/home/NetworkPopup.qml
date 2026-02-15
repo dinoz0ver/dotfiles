@@ -41,6 +41,7 @@ PopupWindow {
             id: headerText
             padding: 4
             font.pixelSize: 16
+      font.family: "Departure Mono"
             text: "Wifi"
             color: root.fg
           }

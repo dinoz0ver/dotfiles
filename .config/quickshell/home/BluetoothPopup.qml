@@ -40,6 +40,7 @@ PopupWindow {
             id: headerText
             padding: 4
             font.pixelSize: 16
+      font.family: "Departure Mono"
             text: "Bluetooth"
             color: root.fg
           }

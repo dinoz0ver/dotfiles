@@ -46,6 +46,7 @@ PopupWindow {
             id: headerText
             padding: 4
             font.pixelSize: 20
+      font.family: "Departure Mono"
             text: "Notifications: "
             color: root.fg
           }
@@ -68,6 +69,7 @@ PopupWindow {
                 leftMargin: root.widthMargin; topMargin: root.heightMargin
               }
               font.pixelSize: 14
+      font.family: "Departure Mono"
               color: root.bg
               text: "Dismiss all"
             }

@@ -111,6 +111,7 @@ Item {
         }
         text: ""
         font.pixelSize: 16
+      font.family: "Departure Mono"
         color: root.fg
       }
       MouseArea {anchors.fill: parent; onClicked: root.popup ? Notifications.hide(root.n) : root.n.dismiss() }

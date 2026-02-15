@@ -39,6 +39,7 @@ Item {
         leftMargin: root.widthMargin+3; topMargin: root.heightMargin
       }
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: root.fg
       text: " "
     }

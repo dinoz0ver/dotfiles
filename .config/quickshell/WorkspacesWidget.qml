@@ -47,6 +47,7 @@ Item {
             anchors.centerIn: parent
             text: String(modelData.id)      // number in each box
             font.pixelSize: root.fontSize
+            font.family: "Departure Mono"
             color: isFocused ? root.fg : root.color1
           }
           MouseArea {

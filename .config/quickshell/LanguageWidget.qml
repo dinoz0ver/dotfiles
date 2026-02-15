@@ -31,6 +31,7 @@ Item {
         leftMargin: root.widthMargin; topMargin: root.heightMargin
       }
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: root.fg
       text: Language.languageCode
     }

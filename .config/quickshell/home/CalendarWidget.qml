@@ -54,6 +54,7 @@ Item {
       anchors.fill: parent
       padding: 8
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: root.fg
       textFormat: Text.PlainText
       text: root.calOutput.length > 0 ? root.calOutput : "loading…"

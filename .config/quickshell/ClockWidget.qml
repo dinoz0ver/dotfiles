@@ -33,7 +33,7 @@ Item {
         leftMargin: root.widthMargin; topMargin: root.heightMargin
       }
       font.pixelSize: 14
-      //font.family: "Departure Mono"
+      font.family: "Departure Mono"
       color: root.fg
       text: root.compact ? Time.timeShort : Time.timeLong
     }

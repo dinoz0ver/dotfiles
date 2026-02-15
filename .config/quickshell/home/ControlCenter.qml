@@ -39,6 +39,7 @@ PopupWindow {
           text: "Dinozover's home" //"ඞ's home"
           color: root.fg
           font.pixelSize: 20
+      font.family: "Departure Mono"
         }
         Item {
           implicitWidth: root.implicitWidth-homeText.implicitWidth-shutdown.implicitWidth-reboot.implicitWidth-30

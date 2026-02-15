@@ -27,6 +27,7 @@ Item {
       }
       text: Notifications.count+" "
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: root.fg
     }
 

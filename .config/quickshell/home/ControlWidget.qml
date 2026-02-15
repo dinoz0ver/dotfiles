@@ -27,6 +27,7 @@ Item {
       }
       text: ""
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: root.fg
     }
 

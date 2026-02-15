@@ -39,6 +39,7 @@ Item {
         leftMargin: root.widthMargin; topMargin: root.heightMargin
       }
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: root.fg
       text: " "+Math.round(SystemUsage.memPerc*1000)/10+"%"
     }

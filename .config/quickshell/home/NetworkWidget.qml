@@ -26,6 +26,7 @@ Item {
       padding: 8
       text: ""+(Net.activeSsid != "" ? " "+Net.activeSsid : " Wifi")
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: Net.online ? root.fg : root.fg
     }
 

@@ -34,6 +34,7 @@ Item {
                     padding: 3
                     text: "Output: "
                     font.pixelSize: 14
+      font.family: "Departure Mono"
                     color: root.fg
                 }
 
@@ -47,6 +48,7 @@ Item {
                         leftPadding: 5
                         text: Audio.sink.audio.muted ? "" : ""
                         font.pixelSize: 14
+      font.family: "Departure Mono"
                         color: root.fg
                     }
                     MouseArea {
@@ -100,6 +102,7 @@ Item {
                         text: Math.round(slider.value) + "%"
                         color: root.fg
                         font.pixelSize: 14
+      font.family: "Departure Mono"
                     }
                 }
                 //Text {
@@ -114,6 +117,7 @@ Item {
                     padding: 3
                     text: "Input:  "
                     font.pixelSize: 14
+      font.family: "Departure Mono"
                     color: root.fg
                 }
 
@@ -127,6 +131,7 @@ Item {
                         leftPadding: 5
                         text: Audio.source.audio.muted ? "" : ""
                         font.pixelSize: 14
+      font.family: "Departure Mono"
                         color: root.fg
                     }
                     MouseArea {
@@ -180,6 +185,7 @@ Item {
                         text: Math.round(sliderSource.value) + "%"
                         color: root.fg
                         font.pixelSize: 14
+      font.family: "Departure Mono"
                     }
                 }
                 //Text {

@@ -48,7 +48,7 @@ Item {
       text: levelIcon(root.percent)+" "+root.percent+"%"
       color: root.fg
       font.pixelSize: root.fontSize
-      //font.family: "Monocraft"
+      font.family: "Departure Mono"
     }
     Text {
       id: chargeIcon
@@ -60,6 +60,7 @@ Item {
       text: " "
       color: root.color1
       font.pixelSize: root.fontSize
+      font.family: "Departure Mono"
     }
   }
 }

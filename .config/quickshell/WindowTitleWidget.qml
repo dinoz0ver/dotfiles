@@ -49,6 +49,7 @@ Item {
         leftMargin: root.widthMargin; topMargin: root.heightMargin
       }
       font.pixelSize: 14
+      font.family: "Departure Mono"
       color: root.fg
       text: {if (root.window.length>60) return root.window.slice(0,60)+"..."
       else return root.window

@@ -53,6 +53,7 @@ Item {
           }
           font.bold: true
           font.pixelSize: root.fontSize
+      font.family: "Departure Mono"
         }
         Timer {
           interval: 250
@@ -76,13 +77,11 @@ Item {
         color: root.player ? (root.player.canGoPrevious ? root.color2 : root.bg) : root.bg
         implicitWidth: root.buttonWidth; implicitHeight: root.buttonHeight
         border.width: 2; border.color: root.player ? (root.player.canGoPrevious ? root.color2 : root.color1) : root.color1
-        Text { 
-          anchors {
-            left: parent.left; top: parent.top
-            leftMargin: root.buttonLeftMargin; topMargin: root.buttonTopMargin
-          }
+        Text {
+          anchors.centerIn: parent
           text: "⏮"
           font.pixelSize: root.buttonFontSize
+      font.family: "Departure Mono"
           color: root.player ? (root.player.canGoPrevious ? root.fg : root.fg) : root.fg
         } 
         radius: root.radius
@@ -100,13 +99,11 @@ Item {
         color: root.player ? (root.player.canTogglePlaying ? root.color2 : root.bg) : root.bg
         implicitWidth: root.buttonWidth; implicitHeight: root.buttonHeight
         border.width: 2; border.color: root.player ? (root.player.canTogglePlaying ? root.color2 : root.color1) : root.color1
-        Text { 
-          anchors {
-            left: parent.left; top: parent.top
-            leftMargin: root.buttonLeftMargin; topMargin: root.buttonTopMargin
-          }
+        Text {
+          anchors.centerIn: parent
           text: (root.player && root.player.isPlaying) ? "⏸" : "▶"
           font.pixelSize: root.buttonFontSize
+      font.family: "Departure Mono"
           color: root.player ? (root.player.canTogglePlaying ? root.fg : root.fg) : root.fg
         } 
         radius: root.radius
@@ -124,13 +121,11 @@ Item {
         color: root.player ? (root.player.canGoNext ? root.color2 : root.bg) : root.bg
         implicitWidth: root.buttonWidth; implicitHeight: root.buttonHeight
         border.width: 2; border.color: root.player ? (root.player.canGoNext ? root.color2 : root.color1) : root.color1
-        Text { 
-          anchors {
-            left: parent.left; top: parent.top
-            leftMargin: root.buttonLeftMargin; topMargin: root.buttonTopMargin
-          }
+        Text {
+          anchors.centerIn: parent
           text: "⏭"
           font.pixelSize: root.buttonFontSize
+      font.family: "Departure Mono"
           color: root.player ? (root.player.canGoNext ? root.fg : root.fg) : root.fg
         } 
         radius: root.radius

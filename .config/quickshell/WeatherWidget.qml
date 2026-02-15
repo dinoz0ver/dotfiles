@@ -38,6 +38,7 @@ Item {
         leftMargin: root.widthMargin; topMargin: root.heightMargin
       }
       font.pixelSize: root.fontSize
+      font.family: "Departure Mono"
       color: root.fg
       text: Weather.text
     }
