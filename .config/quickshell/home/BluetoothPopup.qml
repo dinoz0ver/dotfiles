@@ -10,8 +10,9 @@ PopupWindow {
   property color bg: "#000000"
   property color fg: "#ffffff"
   property color color1: "#ff0000"
+  property color color2: "#ffff00"
   property bool open: false
-  property int radius: 5
+  property int radius: 8
 
   implicitWidth: 440
   implicitHeight: 220
@@ -19,10 +20,20 @@ PopupWindow {
   visible: open
 
   Rectangle {
-    anchors.fill: parent
+    width: parent.width
+    height: parent.height
     radius: root.radius
-    color: root.color1
+    color: root.bg
     border.width: 2; border.color: root.fg
+
+    y: root.open ? 0 : -20
+    Behavior on y {
+      NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+    }
+    opacity: root.open ? 1.0 : 0.0
+    Behavior on opacity {
+      NumberAnimation { duration: 150; easing.type: Easing.OutCubic }
+    }
 
     Column {
       anchors.fill: parent
@@ -32,7 +43,7 @@ PopupWindow {
         id: header
         implicitWidth: parent.width-12
         implicitHeight: 30
-        color: root.color1
+        color: root.bg
         z: 1000
         Row {
           spacing: 6
@@ -60,6 +71,7 @@ PopupWindow {
               padding: 6
               text: (Bt.hasAdapter && Bt.adapter.enabled) ? "Off" : "On"
               color: root.bg
+              font.family: "Departure Mono"
             }
             MouseArea {
               anchors.fill: parent
@@ -82,6 +94,7 @@ PopupWindow {
               padding: 6
               text: (Bt.hasAdapter && Bt.adapter.discovering) ? "Stop scan" : "Scan"
               color: parent.enabled ? root.color1 : root.fg
+              font.family: "Departure Mono"
             }
             MouseArea {
               anchors.fill: parent
@@ -104,8 +117,10 @@ PopupWindow {
         delegate: Rectangle {
           width: list.width
           height: 40
-          color: root.fg
+          color: root.bg
           radius: root.radius
+          border.color: root.color1
+          border.width: 2
 
           Row {
             anchors.fill: parent
@@ -114,29 +129,32 @@ PopupWindow {
             Text {
               id: deviceNameText
               text: (modelData.name || "(unknown)")
-              width: 200
-              height: 26
               padding: 6
-              color: root.bg
+              color: root.fg
+              font.family: "Departure Mono"
             }
             Rectangle {
-              implicitWidth: (modelData.bonded ? root.implicitWidth-deviceNameText.width-connectText.implicitWidth-forgetText.implicitWidth-6*3-23 : root.implicitWidth-deviceNameText.width-connectText.implicitWidth-6*2-23)
-              implicitHeight: 26
+              width: parent.width - deviceNameText.implicitWidth - connectButton.width - (modelData.bonded ? forgetButton.width + 6 : 0) - 6*2
+              height: 26
               color: "transparent"
             }
             // simple action button: Pair → Connect → Disconnect
             Rectangle {
-              implicitWidth: connectText.implicitWidth
-              implicitHeight: 26
+              id: connectButton
+              width: Math.max(connectText.implicitWidth + 12, 80)
+              height: 26
               color: root.color1
               readonly property bool busy: modelData.pairing || modelData.state === BluetoothDeviceState.Connecting || modelData.state === BluetoothDeviceState.Disconnecting
               enabled: Bt.hasAdapter && Bt.adapter.enabled && !busy
               radius: 4
               Text {
                 id: connectText
-                padding: 6
+                anchors.fill: parent
                 text: parent.busy ? "Working…" : (modelData.connected ? "Disconnect" : (modelData.paired ? "Connect" : "Pair"))
                 color: root.fg
+                font.family: "Departure Mono"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
               }
               MouseArea {
                 anchors.fill: parent
@@ -152,17 +170,21 @@ PopupWindow {
               }
             }
             Rectangle {
-              implicitWidth: forgetText.implicitWidth
-              implicitHeight: 26
+              id: forgetButton
+              width: Math.max(forgetText.implicitWidth + 12, 70)
+              height: 26
               color: root.color1
               enabled: Bt.hasAdapter && Bt.adapter.enabled
               visible: modelData.bonded
               radius: 4
-              Text { 
+              Text {
                 id: forgetText
-                padding: 6
+                anchors.fill: parent
                 text:"Forget"
                 color: root.fg
+                font.family: "Departure Mono"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
               }
               MouseArea {
                 anchors.fill: parent

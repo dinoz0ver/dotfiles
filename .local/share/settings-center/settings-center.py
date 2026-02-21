@@ -382,9 +382,12 @@ class BluetoothPanel(Gtk.Box):
         # Check for Bluetooth adapter
         has_bt = False
         try:
-            bt_status = run_command("bluetoothctl show 2>/dev/null | grep 'Powered' | awk '{print $2}'")
-            if bt_status:  # If we got a response, adapter exists
+            # Check if adapter exists using rfkill (more reliable than bluetoothctl list)
+            rfkill_output = run_command("rfkill list bluetooth 2>/dev/null")
+            if rfkill_output and "Bluetooth" in rfkill_output:  # Adapter exists
                 has_bt = True
+                # Now check if it's powered on
+                bt_status = run_command("bluetoothctl show 2>/dev/null | grep 'Powered' | awk '{print $2}'")
                 self.bt_switch.set_active(bt_status == "yes")
             else:
                 self.bt_switch.set_active(False)
