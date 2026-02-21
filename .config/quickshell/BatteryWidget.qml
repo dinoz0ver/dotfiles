@@ -20,11 +20,9 @@ Item {
   readonly property bool ready: UPower.displayDevice.ready
   readonly property int percent: ready ? Math.round(UPower.displayDevice.percentage*100) : -1
   readonly property bool charging: UPower.displayDevice.state === UPowerDeviceState.Charging || UPower.displayDevice.state === UPowerDeviceState.FullyCharged
-  readonly property bool hasBattery: UPower.displayDevice.isPowerSupply ?? false
+  readonly property bool hasBattery: UPower.displayDevice.isLaptopBattery
 
-  // Hide widget if no battery detected
-  // Note: isPowerSupply doesn't work reliably, so we check if percent is valid instead
-  visible: ready && percent >= 0
+  visible: ready && hasBattery
 
   function levelIcon(p) {
     if (p < 0)      return ""; // unknown -> show empty
