@@ -1,0 +1,13 @@
+[Unit]
+Description=Quickshell (with crash watchdog)
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/Scripts/qs-watchdog.sh
+# Restart if the watchdog itself exits with failure (rate limit hit)
+Restart=no
+
+[Install]
+WantedBy=graphical-session.target

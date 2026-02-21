@@ -6,8 +6,7 @@
 #waybar && swaync
 
 #restarting qs
-pkill qs
-qs
+systemctl --user restart qs
 
 #changing wallpaper
 #pkill hyprpaper

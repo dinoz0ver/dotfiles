@@ -1,0 +1,10 @@
+[Unit]
+Description=Check GRUB menu entries periodically
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1w
+Persistent=true
+
+[Install]
+WantedBy=timers.target

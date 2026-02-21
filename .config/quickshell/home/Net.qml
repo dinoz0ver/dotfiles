@@ -9,10 +9,32 @@ Item {
 
   // public state
   property bool online: false
+  property bool hasAdapter: false
+  property bool ethernetConnected: false
   property string activeSsid: ""
   property var networks: []   // [{ inUse: bool, ssid: string, signal: int }]
 
   // --- processes ---
+  Process {
+    id: procAdapter
+    command: ["nmcli", "-t", "-f", "DEVICE,TYPE,STATE", "device"]
+    stdout: StdioCollector {
+      onStreamFinished: {
+        net.hasAdapter = text.includes(":wifi:")
+        var ethConnected = false
+        var lines = text.trim().split("\n")
+        for (var i = 0; i < lines.length; i++) {
+          var parts = lines[i].split(":")
+          if (parts[1] === "ethernet" && parts[2] === "connected") {
+            ethConnected = true
+            break
+          }
+        }
+        net.ethernetConnected = ethConnected
+      }
+    }
+  }
+
   Process {
     id: procState
     command: ["nmcli", "-t", "-f", "WIFI", "g"]
@@ -65,6 +87,7 @@ Item {
   // --- api ---
   function refresh() {
     console.log("Refreshing network...")
+    procAdapter.running = true
     procState.running = true
     procScan.running = true
   }

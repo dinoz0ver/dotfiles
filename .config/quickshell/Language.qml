@@ -11,10 +11,10 @@ Singleton {
 
   Process {
     id: proc
-    command: ["sh", "-c", "hyprctl -j devices | tr -d '\\n' | sed -E \"s/.*\\\"active_keymap\\\"[[:space:]]*:[[:space:]]*\\\"([^\\\"]+)\\\".*/\\1/\""]
+    command: ["sh", "-c", "hyprctl -j devices | jq -r '.keyboards[] | select(.main == true) | .active_keymap' | tr -d '\\n'"]
     running: true
     stdout: StdioCollector {
-      onStreamFinished: { root.language = this.text }
+      onStreamFinished: { root.language = this.text.trim() }
     }
   }
 

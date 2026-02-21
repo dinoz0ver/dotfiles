@@ -29,7 +29,7 @@ Singleton {
       cpuInfo.reload()
       memInfo.reload()
       storageInfo.running = true
-      gpuInfo.reload()
+      gpuInfo.running = true
     }
   }
 
@@ -76,21 +76,18 @@ Singleton {
     }
   }
 
-  
-  FileView {
+
+  Process {
     id: gpuInfo
-    path: "/sys/class/drm/card1/gt/gt0/rc6_residency_ms"
-
-    onLoaded: {
-      // parse cpu int int ... line
-      const data = text();
-      if (!data) return;
-
-      const idle = data
-      root.gpuIdlePerc = 100*(idle - root.lastGpuIdle)/1000; // replace 1000 with time in the updater above
-      root.gpuBusyPerc = 100-root.gpuIdlePerc
-
-      root.lastGpuIdle = idle
+    command: ["nvidia-smi", "--query-gpu=utilization.gpu", "--format=csv,noheader,nounits"]
+    stdout: StdioCollector {
+      onStreamFinished: {
+        const usage = Number(this.text.trim())
+        if (!isNaN(usage)) {
+          root.gpuBusyPerc = usage
+          root.gpuIdlePerc = 100 - usage
+        }
+      }
     }
   }
 }

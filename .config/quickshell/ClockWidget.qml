@@ -4,14 +4,15 @@ import QtQuick
 Item {
   id: root
 
-  property bool compact: true
-  
   property int heightBox: 34
   property int widthMargin: 10
   property int heightMargin: 7
 
   property color bg: "#FFFFFF"
   property color fg: "#0000FF"
+  property int radius: 5
+
+  signal toggleCalendar()
 
   implicitWidth: box.implicitWidth
   implicitHeight: box.implicitHeight
@@ -23,7 +24,7 @@ Item {
     }
     implicitWidth: text.implicitWidth + 2*widthMargin
     implicitHeight: root.heightBox
-    radius : 5
+    radius: root.radius
     color: root.bg
 
     Text {
@@ -35,15 +36,15 @@ Item {
       font.pixelSize: 14
       font.family: "Departure Mono"
       color: root.fg
-      text: root.compact ? Time.timeShort : Time.timeLong
+      text: Time.timeLong
     }
-    
+
     MouseArea {
       anchors.fill: parent
       acceptedButtons: Qt.LeftButton
       hoverEnabled: true
       cursorShape: Qt.PointingHandCursor
-      onClicked: root.compact = !root.compact
+      onClicked: root.toggleCalendar()
     }
   }
 }

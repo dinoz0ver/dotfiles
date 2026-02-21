@@ -13,13 +13,17 @@ Item {
   property color bg: "#000000"
   property color fg: "#ffffff"
   property color color1: "#d1ac02"
-  
+
   implicitWidth: box.implicitWidth
   implicitHeight: box.implicitHeight
 
   readonly property bool ready: UPower.displayDevice.ready
   readonly property int percent: ready ? Math.round(UPower.displayDevice.percentage*100) : -1
   readonly property bool charging: UPowerDeviceState.toString(UPower.displayDevice.state) == "Charging"
+  readonly property bool hasBattery: UPower.displayDevice.isPowerSupply ?? false
+
+  // Hide widget if no battery detected
+  visible: ready && hasBattery && percent > 0
 
   function levelIcon(p) {
     if (p < 0)      return ""; // unknown -> show empty

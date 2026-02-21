@@ -14,10 +14,15 @@ Item {
   property color bg: "#ff0000"
   property color fg: "#ff00ff"
   property color color1: "#ffffff"
+  property color color2: "#00ff00"
+  property color color4: "#f0f000"
   property int radius: 4
+  property bool hasActions: n && n.actions && n.actions.length > 0
+  property real actionBarTop: hasActions ? actionBar.mapToItem(root, 0, 0).y : -1
 
   width: parent ? parent.width : 0
-  height: card.implicitHeight
+  implicitHeight: card.implicitHeight
+  height: implicitHeight
 
   Rectangle {
     id: card
@@ -38,15 +43,24 @@ Item {
         spacing: 6
         ClippingRectangle {
           id: icon
+          width: 40; height: 40
           implicitWidth: 40; implicitHeight: 40
           radius: 20
-          visible: image.visible
-          IconImage {
+          visible: root.n && ((root.n.image && root.n.image !== "") || (root.n.appIcon && root.n.appIcon !== ""))
+          Image {
             id: image
             anchors.fill: parent
             mipmap: true
-            source: (root.n.image && root.n.image !== "") ? root.n.image : (root.n.appIcon && root.n.appIcon !== "") ? Quickshell.iconPath(root.n.appIcon) : ""
+            fillMode: Image.PreserveAspectCrop
+            source: root.n && root.n.image && root.n.image !== "" ? root.n.image : ""
             visible: source !== ""
+          }
+          IconImage {
+            id: iconImage
+            anchors.fill: parent
+            mipmap: true
+            source: root.n && root.n.appIcon && root.n.appIcon !== "" ? Quickshell.iconPath(root.n.appIcon) : ""
+            visible: source !== "" && !image.visible
           }
         }
         Column {
@@ -54,14 +68,14 @@ Item {
           width: root.width-icon.implicitWidth-12
           spacing: 2
           Text {
-            text: root.n.appName+" - "+root.n.summary
+            text: root.n ? (root.n.appName+" - "+root.n.summary) : ""
             color: root.popup ? root.bg : root.fg
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             width: parent.width
             font.bold: true
           }
           Text {
-            text: root.n.body
+            text: root.n ? root.n.body : ""
             color: root.popup ? root.bg : root.fg
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             width: parent.width
@@ -71,9 +85,9 @@ Item {
       Flow {
         id: actionBar
         spacing: 2
-        visible: root.n.actions && root.n.actions.length > 0
+        visible: root.n && root.n.actions && root.n.actions.length > 0
         Repeater {
-          model: root.n.actions
+          model: root.n ? root.n.actions : []
           delegate: Rectangle {
             implicitWidth: actionText.implicitWidth+8
             implicitHeight: actionText.implicitHeight+8
@@ -86,9 +100,16 @@ Item {
                  topMargin: 4; leftMargin: 4
                }
                text: modelData.text;
-               color: root.popup ? root.bg : root.fg
+               color: root.popup ? root.fg : root.fg
             }
-            MouseArea{ anchors.fill: parent; onClicked: modelData.invoke() }
+            MouseArea{ anchors.fill: parent; onClicked: {
+              if (root.popup) {
+                Notifications.requestDismiss(root.n)
+              } else {
+                Notifications.dismissSaved(root.n._savedId)
+              }
+              if (modelData.invoke) Qt.callLater(modelData.invoke)
+            } }
           }
         }
       }
@@ -96,44 +117,51 @@ Item {
 
     Rectangle {
       id: dismiss
+      z: 1
       width: 18
       height: 18
       radius: 10
-      color: root.bg
+      color: "transparent"
       anchors {
         right: parent.right; top: parent.top
         rightMargin: 6; topMargin: 6
       }
-      Text { 
+
+      Behavior on color {
+        ColorAnimation {
+          duration: 150
+          easing.type: Easing.OutCubic
+        }
+      }
+
+      Text {
         anchors {
           right: parent.right; top: parent.top
           rightMargin: 3.5; topMargin: -3
         }
         text: ""
         font.pixelSize: 16
-      font.family: "Departure Mono"
-        color: root.fg
+        font.family: "Departure Mono"
+        color: dismissHover.hovered ? root.color2 : (root.popup ? root.bg : root.fg)
       }
-      MouseArea {anchors.fill: parent; onClicked: root.popup ? Notifications.hide(root.n) : root.n.dismiss() }
+      HoverHandler {
+        id: dismissHover
+        cursorShape: Qt.PointingHandCursor
+      }
+      MouseArea {
+        id: dismissMouse
+        anchors.fill: parent
+        onClicked: root.popup ? Notifications.requestDismiss(root.n) : Notifications.dismissSaved(root.n._savedId)
+      }
     }
 
-    Timer {
-      id: __autoDismissTimer
-      interval: Notifications.autoCloseMs
-      repeat: false
-      onTriggered: {
-        if (root.n) Notifications.hide(root.n);
+    HoverHandler {
+      enabled: root.popup
+      onHoveredChanged: {
+        if (!root.n) return
+        if (hovered) Notifications.pauseDismiss(root.n)
+        else Notifications.resumeDismiss(root.n)
       }
     }
-    
-    MouseArea {
-      anchors.fill: parent
-      hoverEnabled: true
-      enabled: root.popup
-      acceptedButtons: Qt.NoButton
-      onEntered: { __autoDismissTimer.stop() }
-      onExited: { __autoDismissTimer.restart() }
-      Component.onCompleted: { __autoDismissTimer.start() }
-    }   
   }
 }

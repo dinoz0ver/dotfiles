@@ -1,43 +1,66 @@
 // BluetoothWidget.qml
 import QtQuick
 
-// to do: idk why, but bluetooth is always on after startup
-
 Item {
   id: root
-  property int heightBox: 34
-  property int radius: 5
+  property int radius: 8
   property color bg: "#000000"
   property color fg: "#ffffff"
   property color color1: "#ff0000"
   property color color2: "#ffff00"
-  signal toggleCenter()   // let Bar hook this
+  signal toggleCenter()
 
-  implicitHeight: box.implicitHeight
-  implicitWidth: parent.implicitWidth/2
+  implicitHeight: 60
 
   Rectangle {
-    id: box
-    implicitWidth: root.implicitWidth
-    implicitHeight: root.heightBox
+    anchors.fill: parent
     radius: root.radius
-    color: Bt.adapter.enabled ? root.color2 : root.bg
-    border.width: 2; border.color: Bt.adapter.enabled ? root.color2 : root.color1
-    Text {
-      id: text
-      padding: 8
-      text: "󰂯"+( Bt.connectedCount == 0 ? " Bluetooth" : (Bt.connectedCount == 1 ? " "+Bt.adapter.devices.values[0].name : Bt.connectedCount+" devices connected"))
-      font.pixelSize: 14
-      font.family: "Departure Mono"
-      color: Bt.adapter.enabled ? root.fg : root.fg
+    color: (Bt.hasAdapter && Bt.adapter.enabled) ? root.color2 : root.bg
+    border.width: 2
+    border.color: (Bt.hasAdapter && Bt.adapter.enabled) ? root.color2 : root.color1
+
+    Column {
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.leftMargin: 12
+      spacing: 2
+
+      Row {
+        spacing: 6
+        Text {
+          text: "󰂯"
+          font.pixelSize: 16
+          font.family: "Departure Mono"
+          color: root.fg
+        }
+        Text {
+          text: "Bluetooth"
+          font.pixelSize: 14
+          font.family: "Departure Mono"
+          font.bold: true
+          color: root.fg
+        }
+      }
+
+      Text {
+        text: {
+          if (!Bt.hasAdapter) return "No adapter"
+          if (!Bt.adapter.enabled) return "Disabled"
+          if (Bt.connectedCount === 0) return "Not connected"
+          if (Bt.connectedCount === 1) return Bt.adapter.devices.values[0].name
+          return Bt.connectedCount + " connected"
+        }
+        font.pixelSize: 12
+        font.family: "Departure Mono"
+        color: root.fg
+        opacity: 0.7
+      }
     }
 
     MouseArea {
       anchors.fill: parent
-      acceptedButtons: Qt.LeftButton
-      hoverEnabled: true
       cursorShape: Qt.PointingHandCursor
       onClicked: root.toggleCenter()
-     }
+    }
   }
 }

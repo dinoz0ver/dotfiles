@@ -1,14 +1,17 @@
 // NotificationCenter.qml
 import QtQuick
+import QtQuick.Controls
 import Quickshell
 import Quickshell.Widgets
 
 PopupWindow {
   id: root
-  
+
   property color bg: "#000000"
   property color fg: "#ffffff"
   property color color1: "#ff0000"
+  property color color2: "#00ff00"
+  property color color4: "#f0f000"
   property int radius: 5
   property int widthMargin: 5
   property int heightMargin: 5
@@ -17,22 +20,44 @@ PopupWindow {
   visible: open
   color: "transparent"
   implicitWidth: 420
-  implicitHeight: 800
+  implicitHeight: Notifications.savedNotifications.length === 0
+    ? header.implicitHeight + emptyText.implicitHeight + 40
+    : Math.min(800, list.contentHeight + header.implicitHeight + 40)
 
   anchor.rect.x: parentWindow.width - implicitWidth
   anchor.rect.y: parentWindow.height
   anchor.margins.top: 6
 
   Rectangle {
-    anchors.fill: parent
+    id: box
+    width: parent.width
+    height: parent.height
     radius: root.radius
     color: root.bg
     border.width: 2; border.color: root.fg
 
+    // Smooth slide-down animation
+    y: root.open ? 0 : -20
+    Behavior on y {
+      NumberAnimation {
+        duration: 200
+        easing.type: Easing.OutCubic
+      }
+    }
+
+    // Smooth fade animation
+    opacity: root.open ? 1.0 : 0.0
+    Behavior on opacity {
+      NumberAnimation {
+        duration: 150
+        easing.type: Easing.OutCubic
+      }
+    }
+
     Column {
       anchors.fill: parent
-      spacing: 6
-      padding: 6
+      spacing: 8
+      padding: 8
 
       Rectangle {
         id: header
@@ -60,7 +85,15 @@ PopupWindow {
             implicitWidth: buttonText.implicitWidth + 2*widthMargin
             implicitHeight: buttonText.implicitHeight + 2*heightMargin
             radius: 5
-            color: root.fg
+            color: buttonMouse.containsMouse ? root.color1 : root.fg
+
+            // Smooth color transition
+            Behavior on color {
+              ColorAnimation {
+                duration: 150
+                easing.type: Easing.OutCubic
+              }
+            }
 
             Text {
               id: buttonText
@@ -68,13 +101,22 @@ PopupWindow {
                 left: parent.left; top: parent.top
                 leftMargin: root.widthMargin; topMargin: root.heightMargin
               }
-              font.pixelSize: 14
-      font.family: "Departure Mono"
-              color: root.bg
               text: "Dismiss all"
+              font.pixelSize: 14
+              font.family: "Departure Mono"
+              color: buttonMouse.containsMouse ? root.fg : root.bg
+
+              // Smooth color transition
+              Behavior on color {
+                ColorAnimation {
+                  duration: 150
+                  easing.type: Easing.OutCubic
+                }
+              }
             }
-            
+
             MouseArea {
+              id: buttonMouse
               anchors.fill: parent
               acceptedButtons: Qt.LeftButton
               hoverEnabled: true
@@ -84,12 +126,31 @@ PopupWindow {
           }
         }
       }
+      Text {
+        id: emptyText
+        visible: Notifications.savedNotifications.length === 0
+        text: "No notifications"
+        color: root.fg
+        font.pixelSize: 14
+        font.family: "Departure Mono"
+        horizontalAlignment: Text.AlignHCenter
+        width: parent.width - 12
+        topPadding: 8
+      }
       ListView {
         id: list
-        height: parent.height - header.height-12
+        visible: Notifications.savedNotifications.length > 0
+        property bool atMax: list.contentHeight + header.implicitHeight + 40 > 800
+        height: parent.height - header.height - 24
         width: parent.width-12
-        model: Notifications.model
+        model: Notifications.savedNotifications
         spacing: 6
+        clip: atMax
+        interactive: atMax
+
+        ScrollBar.vertical: ScrollBar {
+          policy: list.atMax ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        }
 
         delegate: NotificationCard {
           n: modelData
@@ -97,6 +158,8 @@ PopupWindow {
           bg: root.bg
           fg: root.fg
           color1: root.color1
+          color2: root.color2
+          color4: root.color4
         }
       }
     }

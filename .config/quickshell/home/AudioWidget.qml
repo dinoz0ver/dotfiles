@@ -3,196 +3,136 @@ import QtQuick
 import QtQuick.Controls
 
 Item {
-    id: root
+  id: root
 
-    property int heightBox: 34
-    property int radius: 5
-    property color bg: "#000000"
-    property color fg: "#ffffff"
-    property color color1: "#ff0000"
-    property color color2: "#ffff00"
+  property int radius: 8
+  property color bg: "#000000"
+  property color fg: "#ffffff"
+  property color color1: "#ff0000"
+  property color color2: "#ffff00"
 
-    implicitHeight: box.implicitHeight
-    implicitWidth: parent.implicitWidth-12
+  property int sliderHeight: 140
 
-    Rectangle {
-        id: box
-        implicitWidth: root.implicitWidth
-        implicitHeight: column.implicitHeight
-        radius: root.radius
-        color: root.bg
-        border.width: 2; border.color: root.color1
-        Column {
-            id: column
-            padding: 6
-            spacing: 6
+  implicitHeight: sliderHeight + 40
 
-            Row {
-                spacing: 6
+  Row {
+    anchors.horizontalCenter: parent.horizontalCenter
+    spacing: 20
 
-                Text {
-                    padding: 3
-                    text: "Output: "
-                    font.pixelSize: 14
-      font.family: "Departure Mono"
-                    color: root.fg
-                }
+    // Output volume slider
+    Column {
+      spacing: 6
 
-                Rectangle {
-                    width: 25
-                    height: 25
-                    radius: root.radius
-                    color: root.color2
-                    Text {
-                        topPadding: 4
-                        leftPadding: 5
-                        text: Audio.sink.audio.muted ? "" : ""
-                        font.pixelSize: 14
-      font.family: "Departure Mono"
-                        color: root.fg
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: Audio.toggleMute(true)
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                    }
-                }
-                Row {
-                    padding: 4
-                    spacing: 6
-                    Slider {
-                        id: slider
-                        from: 0; to: 100
-                        value: Math.round(Audio.sink.audio.volume*100)
-                        onMoved: Audio.setVolume(value, true)
-                        background: Rectangle {
-                            x: slider.leftPadding
-                            y: slider.topPadding + slider.availableHeight / 2 - height / 2
-                            implicitWidth: 250
-                            implicitHeight: 8
-                            width: slider.availableWidth
-                            height: implicitHeight
-                            radius: 4
-                            color: root.color1
-                            border.color: root.color1
-                            border.width: 2
+      Slider {
+        id: outputSlider
+        orientation: Qt.Vertical
+        from: 0; to: 100
+        implicitHeight: root.sliderHeight
+        implicitWidth: 28
+        value: Math.round((Audio.sink?.audio?.volume ?? 0) * 100)
+        onMoved: Audio.setVolume(value, true)
 
-                            Rectangle {
-                                width: slider.visualPosition * parent.width
-                                height: parent.height
-                                color: root.color2
-                                radius: 4
-                            }
-                        }
+        background: Rectangle {
+          x: outputSlider.leftPadding + outputSlider.availableWidth / 2 - width / 2
+          y: outputSlider.topPadding
+          implicitWidth: 8
+          implicitHeight: outputSlider.availableHeight
+          width: implicitWidth
+          height: outputSlider.availableHeight
+          radius: 4
+          color: root.color1
 
-                        handle: Rectangle {
-                            x: slider.leftPadding + slider.visualPosition * (slider.availableWidth - width)
-                            y: slider.topPadding + slider.availableHeight / 2 - height / 2
-                            implicitWidth: 16
-                            implicitHeight: 16
-                            radius: 13
-                            color: slider.pressed ? root.fg : root.fg
-                            border.color: slider.pressed ? root.fg : root.fg
-                            border.width: 2
-                        }
-                    }
-
-                    Text {
-                        text: Math.round(slider.value) + "%"
-                        color: root.fg
-                        font.pixelSize: 14
-      font.family: "Departure Mono"
-                    }
-                }
-                //Text {
-                //    text: Audio.sink.ready+" "+Audio.isReady
-                //    color: "#ffffff"
-                //}
-            }
-            Row {
-                spacing: 6
-
-                Text {
-                    padding: 3
-                    text: "Input:  "
-                    font.pixelSize: 14
-      font.family: "Departure Mono"
-                    color: root.fg
-                }
-
-                Rectangle {
-                    width: 25
-                    height: 25
-                    radius: root.radius
-                    color: root.color2
-                    Text {
-                        topPadding: 4
-                        leftPadding: 5
-                        text: Audio.source.audio.muted ? "" : ""
-                        font.pixelSize: 14
-      font.family: "Departure Mono"
-                        color: root.fg
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: Audio.toggleMute(false)
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                    }
-                }
-                Row {
-                    padding: 4
-                    spacing: 6
-                    Slider {
-                        id: sliderSource
-                        from: 0; to: 100
-                        value: Math.round(Audio.source.audio.volume*100)
-                        onMoved: Audio.setVolume(value, false)
-                        background: Rectangle {
-                            x: sliderSource.leftPadding
-                            y: sliderSource.topPadding + sliderSource.availableHeight / 2 - height / 2
-                            implicitWidth: 250
-                            implicitHeight: 8
-                            width: sliderSource.availableWidth
-                            height: implicitHeight
-                            radius: 4
-                            color: root.color1
-                            border.color: root.color1
-                            border.width: 2
-
-                            Rectangle {
-                                width: sliderSource.visualPosition * parent.width
-                                height: parent.height
-                                color: root.color2
-                                radius: 4
-                            }
-                        }
-
-                        handle: Rectangle {
-                            x: sliderSource.leftPadding + sliderSource.visualPosition * (sliderSource.availableWidth - width)
-                            y: sliderSource.topPadding + sliderSource.availableHeight / 2 - height / 2
-                            implicitWidth: 16
-                            implicitHeight: 16
-                            radius: 13
-                            color: sliderSource.pressed ? root.fg : root.fg
-                            border.color: sliderSource.pressed ? root.fg : root.fg
-                            border.width: 2
-                        }
-                    }
-
-                    Text {
-                        text: Math.round(sliderSource.value) + "%"
-                        color: root.fg
-                        font.pixelSize: 14
-      font.family: "Departure Mono"
-                    }
-                }
-                //Text {
-                //    text: Audio.source.ready+" "+Audio.isReady
-                //    color: "#ffffff"
-                //}
-            }
+          Rectangle {
+            width: parent.width
+            height: (1.0 - outputSlider.visualPosition) * parent.height
+            y: outputSlider.visualPosition * parent.height
+            color: root.color2
+            radius: 4
+          }
         }
+
+        handle: Rectangle {
+          x: outputSlider.leftPadding + outputSlider.availableWidth / 2 - width / 2
+          y: outputSlider.topPadding + outputSlider.visualPosition * (outputSlider.availableHeight - height)
+          implicitWidth: 18
+          implicitHeight: 18
+          radius: 9
+          color: root.fg
+        }
+      }
+
+      // Speaker icon (mute toggle)
+      Text {
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: (Audio.sink?.audio?.muted ?? false) ? "󰖁" : "󰕾"
+        font.pixelSize: 18
+        font.family: "Departure Mono"
+        color: root.fg
+
+        MouseArea {
+          anchors.fill: parent
+          cursorShape: Qt.PointingHandCursor
+          onClicked: Audio.toggleMute(true)
+        }
+      }
     }
+
+    // Mic volume slider
+    Column {
+      spacing: 6
+
+      Slider {
+        id: micSlider
+        orientation: Qt.Vertical
+        from: 0; to: 100
+        implicitHeight: root.sliderHeight
+        implicitWidth: 28
+        value: Math.round((Audio.source?.audio?.volume ?? 0) * 100)
+        onMoved: Audio.setVolume(value, false)
+
+        background: Rectangle {
+          x: micSlider.leftPadding + micSlider.availableWidth / 2 - width / 2
+          y: micSlider.topPadding
+          implicitWidth: 8
+          implicitHeight: micSlider.availableHeight
+          width: implicitWidth
+          height: micSlider.availableHeight
+          radius: 4
+          color: root.color1
+
+          Rectangle {
+            width: parent.width
+            height: (1.0 - micSlider.visualPosition) * parent.height
+            y: micSlider.visualPosition * parent.height
+            color: root.color2
+            radius: 4
+          }
+        }
+
+        handle: Rectangle {
+          x: micSlider.leftPadding + micSlider.availableWidth / 2 - width / 2
+          y: micSlider.topPadding + micSlider.visualPosition * (micSlider.availableHeight - height)
+          implicitWidth: 18
+          implicitHeight: 18
+          radius: 9
+          color: root.fg
+        }
+      }
+
+      // Mic icon (mute toggle)
+      Text {
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: (Audio.source?.audio?.muted ?? false) ? "󰍭" : "󰍬"
+        font.pixelSize: 18
+        font.family: "Departure Mono"
+        color: root.fg
+
+        MouseArea {
+          anchors.fill: parent
+          cursorShape: Qt.PointingHandCursor
+          onClicked: Audio.toggleMute(false)
+        }
+      }
+    }
+  }
 }

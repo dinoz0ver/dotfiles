@@ -14,8 +14,15 @@ Item {
 
   property color bg: "#FFFFFF"
   property color fg: "#0000FF"
+  property var currentScreen
 
   property string window: (Hyprland.activeToplevel && Hyprland.activeToplevel.title.length > 0 &&  Hyprland.activeToplevel.workspace.focused) ? Hyprland.activeToplevel.title : "amogus hehe"
+
+  // Only show on the monitor with the focused window
+  visible: {
+    if (!Hyprland.activeToplevel || !currentScreen) return false
+    return Hyprland.activeToplevel.monitor?.name === currentScreen.name
+  }
 
   implicitWidth: box.implicitWidth
   implicitHeight: box.implicitHeight

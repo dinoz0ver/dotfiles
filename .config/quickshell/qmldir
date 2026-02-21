@@ -1,0 +1,12 @@
+singleton Language 1.0 Language.qml
+singleton Time 1.0 Time.qml
+singleton Weather 1.0 Weather.qml
+
+Bar 1.0 Bar.qml
+BatteryWidget 1.0 BatteryWidget.qml
+ClockWidget 1.0 ClockWidget.qml
+LanguageWidget 1.0 LanguageWidget.qml
+WalPalette 1.0 WalPalette.qml
+WeatherWidget 1.0 WeatherWidget.qml
+WindowTitleWidget 1.0 WindowTitleWidget.qml
+WorkspacesWidget 1.0 WorkspacesWidget.qml

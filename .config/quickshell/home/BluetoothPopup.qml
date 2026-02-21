@@ -54,39 +54,41 @@ PopupWindow {
             implicitHeight: 26
             color: root.fg
             radius: 4
-            Text { 
+            visible: Bt.hasAdapter
+            Text {
               id: onOffText
               padding: 6
-              text: Bt.adapter.enabled ? "Off" : "On"
-              color: root.bg 
+              text: (Bt.hasAdapter && Bt.adapter.enabled) ? "Off" : "On"
+              color: root.bg
             }
             MouseArea {
               anchors.fill: parent
               acceptedButtons: Qt.LeftButton
               hoverEnabled: true
               cursorShape: Qt.PointingHandCursor
-              onClicked: Bt.adapter.enabled = !Bt.adapter.enabled
+              onClicked: if (Bt.hasAdapter) Bt.adapter.enabled = !Bt.adapter.enabled
             }
           }
           Rectangle {
             implicitWidth: scanText.implicitWidth
             implicitHeight: 26
             color: enabled ? root.fg : root.color1
-            enabled: Bt.adapter.enabled
+            enabled: Bt.hasAdapter && Bt.adapter.enabled
             radius: 4
             border.width: 2; border.color: root.fg
-            Text { 
+            visible: Bt.hasAdapter
+            Text {
               id: scanText
               padding: 6
-              text: Bt.adapter.discovering ? "Stop scan" : "Scan"
-              color: parent.enabled ? root.color1 : root.fg 
+              text: (Bt.hasAdapter && Bt.adapter.discovering) ? "Stop scan" : "Scan"
+              color: parent.enabled ? root.color1 : root.fg
             }
             MouseArea {
               anchors.fill: parent
               acceptedButtons: Qt.LeftButton
               hoverEnabled: true
               cursorShape: Qt.PointingHandCursor
-              onClicked: Bt.adapter.discovering = !Bt.adapter.discovering
+              onClicked: if (Bt.hasAdapter) Bt.adapter.discovering = !Bt.adapter.discovering
             }
           }
         }
@@ -96,7 +98,7 @@ PopupWindow {
         id: list
         width: parent.width - 12
         height: parent.height - 90
-        model: Bt.adapter.devices.values
+        model: Bt.hasAdapter ? Bt.adapter.devices.values : []
         spacing: 6
 
         delegate: Rectangle {
@@ -128,7 +130,7 @@ PopupWindow {
               implicitHeight: 26
               color: root.color1
               readonly property bool busy: modelData.pairing || modelData.state === BluetoothDeviceState.Connecting || modelData.state === BluetoothDeviceState.Disconnecting
-              enabled: Bt.adapter.enabled && !busy
+              enabled: Bt.hasAdapter && Bt.adapter.enabled && !busy
               radius: 4
               Text {
                 id: connectText
@@ -153,7 +155,7 @@ PopupWindow {
               implicitWidth: forgetText.implicitWidth
               implicitHeight: 26
               color: root.color1
-              enabled: Bt.adapter.enabled
+              enabled: Bt.hasAdapter && Bt.adapter.enabled
               visible: modelData.bonded
               radius: 4
               Text { 
@@ -178,8 +180,10 @@ PopupWindow {
           width: list.width; height: 28
           horizontalAlignment: Text.AlignHCenter
           color: root.fg
-          text: Bt.adapter.discovering ? "Scanning…" :
-             (list.count === 0 ? "No devices" : "")
+          font.family: "Departure Mono"
+          text: !Bt.hasAdapter ? "No adapter" :
+             ((Bt.hasAdapter && Bt.adapter.discovering) ? "Scanning…" :
+             (list.count === 0 ? "No devices" : ""))
           visible: text !== ""
         }
       }

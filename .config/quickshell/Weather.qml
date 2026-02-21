@@ -13,6 +13,7 @@ Singleton {
 
   property string text: "..."
   property string tooltip: "..."
+  property bool loaded: false
 
   Process {
     id: proc
@@ -22,11 +23,15 @@ Singleton {
       onStreamFinished: {
         try {
           const obj = JSON.parse(this.text.trim())
-          root.text = obj.text || "error"
-          root.tooltip = obj.tooltip || "error"
+          if (obj.text && obj.tooltip) {
+            root.text = obj.text
+            root.tooltip = obj.tooltip
+            root.loaded = true
+          } else {
+            root.loaded = false
+          }
         } catch (e) {
-          root.text = "error"
-          root.tooltip = "error"
+          root.loaded = false
         }
       }
     }

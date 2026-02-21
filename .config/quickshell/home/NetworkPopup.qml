@@ -55,39 +55,41 @@ PopupWindow {
             implicitHeight: 26
             color: root.fg
             radius: 4
-            Text { 
+            visible: Net.hasAdapter
+            Text {
               id: onOffText
               padding: 6
-              text: Net.online ? "Off" : "On"
-              color: root.bg 
+              text: (Net.hasAdapter && Net.online) ? "Off" : "On"
+              color: root.bg
             }
             MouseArea {
               anchors.fill: parent
               acceptedButtons: Qt.LeftButton
               hoverEnabled: true
               cursorShape: Qt.PointingHandCursor
-              onClicked: Net.setWifiEnabled(!Net.online)
+              onClicked: if (Net.hasAdapter) Net.setWifiEnabled(!Net.online)
             }
           }
           Rectangle {
             implicitWidth: refreshText.implicitWidth
             implicitHeight: 26
-            enabled: Net.online
+            enabled: Net.hasAdapter && Net.online
             color: enabled ? root.fg : root.color1
             radius: 4
             border.width: 2; border.color: root.fg
-            Text { 
+            visible: Net.hasAdapter
+            Text {
               id: refreshText
               padding: 6
               text: "Refresh"
-              color: parent.enabled ? root.color1 : root.fg 
+              color: parent.enabled ? root.color1 : root.fg
             }
             MouseArea {
               anchors.fill: parent
               acceptedButtons: Qt.LeftButton
               hoverEnabled: true
               cursorShape: Qt.PointingHandCursor
-              onClicked: Net.refresh() 
+              onClicked: if (Net.hasAdapter) Net.refresh()
             }
           }
         }
@@ -96,7 +98,7 @@ PopupWindow {
         id: list
         height: parent.height - header.height-12
         width: parent.width-12
-        model: Net.networks
+        model: Net.hasAdapter ? Net.networks : []
         spacing: 6
 
         delegate: Rectangle {
@@ -158,7 +160,9 @@ PopupWindow {
         footer: Text {
           width: list.width; height: 28
           horizontalAlignment: Text.AlignHCenter
-          text: Net.online ? (list.count === 0 ? "No networks (refresh?)" : "") : "Turn on wifi?"
+          font.family: "Departure Mono"
+          text: !Net.hasAdapter ? "No adapter" :
+             ((Net.hasAdapter && Net.online) ? (list.count === 0 ? "No networks (refresh?)" : "") : "Turn on wifi?")
           visible: (text !== "")
           color: root.fg
         }

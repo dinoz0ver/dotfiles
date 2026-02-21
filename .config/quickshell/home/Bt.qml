@@ -5,8 +5,9 @@ import Quickshell.Bluetooth
 import Quickshell
 
 Singleton {
-  // expose the default adapter from Quickshell’s Bluetooth singleton
+  // expose the default adapter from Quickshell's Bluetooth singleton
   readonly property BluetoothAdapter adapter: Bluetooth.defaultAdapter
+  readonly property bool hasAdapter: adapter !== null && adapter !== undefined
   readonly property int devicesCount: Bluetooth.defaultAdapter ? (Bluetooth.defaultAdapter.devices ? Bluetooth.defaultAdapter.devices.values.length : 0) : 0
   readonly property int connectedCount: {
     let cnt = 0

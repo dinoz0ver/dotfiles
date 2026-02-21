@@ -1,6 +1,5 @@
 // ShutdownWidget.qml
 import QtQuick
-import Quickshell.Io
 
 Item {
   id: root
@@ -12,15 +11,10 @@ Item {
   property color bg: "#FFFFFF"
   property color fg: "#0000FF"
 
+  signal activated()
+
   implicitWidth: box.implicitWidth
   implicitHeight: box.implicitHeight
-
-  Process {
-    id: shutdownProc
-    command: ["shutdown", "now"]
-    //command: ["firefox"]
-    running: false
-  }
 
   Rectangle {
     id: box
@@ -41,15 +35,15 @@ Item {
       font.pixelSize: 14
       font.family: "Departure Mono"
       color: root.fg
-      text: " "
+      text: "\uf011"
     }
-    
+
     MouseArea {
       anchors.fill: parent
       acceptedButtons: Qt.LeftButton
       hoverEnabled: true
       cursorShape: Qt.PointingHandCursor
-      onClicked: shutdownProc.running = true
+      onClicked: root.activated()
     }
   }
 }

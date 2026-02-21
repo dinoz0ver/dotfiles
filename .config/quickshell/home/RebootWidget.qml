@@ -1,6 +1,5 @@
 // RebootWidget.qml
 import QtQuick
-import Quickshell.Io
 
 Item {
   id: root
@@ -12,15 +11,10 @@ Item {
   property color bg: "#FFFFFF"
   property color fg: "#0000FF"
 
+  signal activated()
+
   implicitWidth: box.implicitWidth
   implicitHeight: box.implicitHeight
-
-  Process {
-    id: rebootProc
-    command: ["reboot"]
-    //command: ["firefox"]
-    running: false
-  }
 
   Rectangle {
     id: box
@@ -41,15 +35,15 @@ Item {
       font.pixelSize: 14
       font.family: "Departure Mono"
       color: root.fg
-      text: " "
+      text: "\uf01e"
     }
-    
+
     MouseArea {
       anchors.fill: parent
       acceptedButtons: Qt.LeftButton
       hoverEnabled: true
       cursorShape: Qt.PointingHandCursor
-      onClicked: rebootProc.running = true
+      onClicked: root.activated()
     }
   }
 }

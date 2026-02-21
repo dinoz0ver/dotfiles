@@ -15,6 +15,7 @@ Item {
   property color bg: "#FFFFFF"
   property color fg: "#0000FF"
   property color color1: "#FF0000"
+  property var currentScreen
 
   implicitWidth: box.implicitWidth
   implicitHeight: box.implicitHeight
@@ -37,7 +38,7 @@ Item {
         model: Hyprland.workspaces
 
         delegate: Rectangle {
-          visible: modelData
+          visible: modelData && (!root.currentScreen || modelData.monitor?.name === root.currentScreen.name)
           implicitWidth: root.widthRow
           implicitHeight: root.heightRow
           radius: root.radiusRow

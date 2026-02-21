@@ -1,0 +1,24 @@
+singleton Audio 1.0 Audio.qml
+singleton Bt 1.0 Bt.qml
+singleton Net 1.0 Net.qml
+singleton Player 1.0 Player.qml
+singleton SystemUsage 1.0 SystemUsage.qml
+singleton Uptime 1.0 Uptime.qml
+
+AudioWidget 1.0 AudioWidget.qml
+BluetoothPopup 1.0 BluetoothPopup.qml
+BluetoothWidget 1.0 BluetoothWidget.qml
+CalendarPopup 1.0 CalendarPopup.qml
+CalendarWidget 1.0 CalendarWidget.qml
+ControlCenter 1.0 ControlCenter.qml
+ControlWidget 1.0 ControlWidget.qml
+CpuWidget 1.0 CpuWidget.qml
+GpuWidget 1.0 GpuWidget.qml
+ImageWidget 1.0 ImageWidget.qml
+MemWidget 1.0 MemWidget.qml
+NetworkPopup 1.0 NetworkPopup.qml
+NetworkWidget 1.0 NetworkWidget.qml
+PlayerWidget 1.0 PlayerWidget.qml
+PopupOverlay 1.0 PopupOverlay.qml
+PowerPopup 1.0 PowerPopup.qml
+StorageWidget 1.0 StorageWidget.qml
