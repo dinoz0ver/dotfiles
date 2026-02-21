@@ -605,6 +605,7 @@ PopupWindow {
       id: networkViewContainer
       width: parent.width
       height: parent.height
+      enabled: root.currentView === "network"
 
       Rectangle {
         id: networkView
@@ -615,8 +616,8 @@ PopupWindow {
         border.width: 2
         border.color: root.fg
         transformOrigin: Item.Top
-        scale: root.currentView === "network" ? 1.0 : 0.1
-        y: root.currentView === "network" ? 0 : 80
+        scale: root.currentView === "network" ? 1.0 : 0.8
+        y: root.currentView === "network" ? 0 : 21
         opacity: root.currentView === "network" ? 1.0 : 0.0
         Behavior on scale {
           NumberAnimation { duration: 300; easing.type: Easing.InOutCubic }
@@ -1000,6 +1001,7 @@ PopupWindow {
       id: bluetoothViewContainer
       width: parent.width
       height: parent.height
+      enabled: root.currentView === "bluetooth"
 
       Rectangle {
         id: bluetoothView
@@ -1010,8 +1012,8 @@ PopupWindow {
         border.width: 2
         border.color: root.fg
         transformOrigin: Item.Top
-        scale: root.currentView === "bluetooth" ? 1.0 : 0.1
-        y: root.currentView === "bluetooth" ? 0 : 150
+        scale: root.currentView === "bluetooth" ? 1.0 : 0.8
+        y: root.currentView === "bluetooth" ? 0 : 35
         opacity: root.currentView === "bluetooth" ? 1.0 : 0.0
         Behavior on scale {
           NumberAnimation { duration: 300; easing.type: Easing.InOutCubic }
