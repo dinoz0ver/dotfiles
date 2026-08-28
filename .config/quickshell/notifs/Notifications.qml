@@ -192,7 +192,7 @@ Singleton {
 
   Process {
     id: soundPlayer
-    command: ["pw-play", "/home/dinozover/.config/quickshell/sounds/notification-sound"]
+    command: ["pw-play", Quickshell.env("HOME") + "/.config/quickshell/sounds/notification-sound"]
     running: false
   }
 

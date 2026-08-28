@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-#restarting waybar and swaync
-#pkill waybar
-#pkill swaync
-#waybar && swaync
-
 #restarting qs
 systemctl --user restart qs
 

@@ -24,7 +24,7 @@ Item {
     AnimatedImage {
       id: pic
       anchors.fill: parent
-      source: "/home/dinozover/Pictures/dinosleeping.gif"
+      source: Quickshell.env("HOME") + "/Pictures/dinosleeping.gif"
       asynchronous: true
       fillMode: Image.PreserveAspectFit   // nice cover-style fill
       cache: true

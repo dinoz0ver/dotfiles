@@ -3,4 +3,4 @@ Description=Check GRUB menu entries
 
 [Service]
 Type=oneshot
-ExecStart=/home/dinozover/Scripts/grub-check.sh
+ExecStart=%h/Scripts/grub-check.sh

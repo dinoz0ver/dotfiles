@@ -7,7 +7,7 @@ import Quickshell.Io
 Singleton {
   id: root
 
-  property string scriptPath: "/home/dinozover/.config/quickshell/scripts/get_weather.sh"  // point to your script
+  property string scriptPath: Quickshell.env("HOME") + "/.config/quickshell/scripts/get_weather.sh"  // point to your script
   property string location: "Moscow"
   property int intervalMinutes: 10
 

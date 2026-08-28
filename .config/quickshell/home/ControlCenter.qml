@@ -316,7 +316,7 @@ PopupWindow {
             Image {
               id: avatarImg
               anchors.fill: parent
-              source: "file:///home/dinozover/.config/quickshell/home/profile-icon"
+              source: Qt.resolvedUrl("profile-icon")
               fillMode: Image.PreserveAspectCrop
               mipmap: true
               visible: status === Image.Ready
