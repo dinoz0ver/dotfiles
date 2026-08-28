@@ -39,3 +39,9 @@ systemctl --user enable --now grub-check.timer
 ```bash
 ./Scripts/wallpapermenu.sh
 ```
+
+<img width="1920" height="1080" alt="2026-08-28-144926_hyprshot" src="https://github.com/user-attachments/assets/d0663bbe-4f9b-4b38-8c38-be08d4764e0b" />
+<img width="1919" height="1080" alt="2026-08-28-144853_hyprshot" src="https://github.com/user-attachments/assets/78713912-0407-42fd-b984-189a4149616b" />
+
+https://github.com/user-attachments/assets/0b027259-d450-432e-b0cf-901f3ae2c2b4
+
