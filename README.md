@@ -1,10 +1,9 @@
 # dotfiles
 
-Hyprland rice shared between PC (`dumbpc`) and laptop.
+my hyprland rice is made with quickshell.
+uses a bare git repo.
 
-Uses a bare git repo — no extra tools needed.
-
-## Install on a new machine
+## install on a new machine
 
 ```bash
 git clone --bare https://github.com/dinoz0ver/dotfiles.git $HOME/.dotfiles
@@ -13,9 +12,7 @@ dotfiles config status.showUntrackedFiles no
 dotfiles checkout
 ```
 
-If checkout fails due to existing files, back them up or remove them and retry.
-
-## Set up host-specific configs
+## set up host-specific configs
 
 ```bash
 # hyprland (monitors, devices, input)
@@ -28,18 +25,17 @@ ln -sf hosts/laptop-lock.conf ~/.config/hypr/host-lock.conf
 ln -sf hosts/laptop-idle.conf ~/.config/hypr/hypridle.conf
 ```
 
-Edit `~/.config/hypr/hosts/laptop.conf` — run `hyprctl monitors` to get your monitor name.
+edit `~/.config/hypr/hosts/laptop.conf` — run `hyprctl monitors` to get your monitor name.
 
-## Enable services
+## enable services
 
 ```bash
 systemctl --user enable --now qs.service
 systemctl --user enable --now grub-check.timer
 ```
 
-## Apply colorscheme
+## apply colorscheme and set wallpaper
 
 ```bash
-wal -i /path/to/wallpaper
-bash ~/Scripts/pywal16.sh
+./Scripts/wallpapermenu.sh
 ```
