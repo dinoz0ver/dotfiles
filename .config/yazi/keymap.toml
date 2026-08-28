@@ -1,5 +1,5 @@
 [mgr]
-prepend_keymap = [
+prepend_keys = [
    { on = "n", run = "create", desc = "New file" },
    { on = "N", run = "create --dir", desc = "New directory" },
 ]
